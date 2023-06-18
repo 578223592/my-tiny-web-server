@@ -1,5 +1,5 @@
-// @Author Lin Ya
-// @Email xxbbb@vip.qq.com
+// @Author swx
+// @Email
 #include <getopt.h>
 #include <string>
 #include "EventLoop.h"

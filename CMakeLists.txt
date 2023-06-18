@@ -25,4 +25,9 @@ string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 string(TOUPPER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
 message(STATUS "CXX_FLAGS = " ${CMAKE_CXX_FLAGS} " " ${CMAKE_CXX_FLAGS_${BUILD_TYPE}})
 
+# 设置项目可执行文件输出的路径
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/out_bin)
+# 设置项目库文件输出的路径
+set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/out_lib)
+
 add_subdirectory(WebServer)

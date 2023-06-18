@@ -27,7 +27,7 @@ Server::Server(EventLoop *loop, int threadNum, int port)
 void Server::start() {
   eventLoopThreadPool_->start();
   // acceptChannel_->setEvents(EPOLLIN | EPOLLET | EPOLLONESHOT);
-  acceptChannel_->setEvents(EPOLLIN | EPOLLET);
+  acceptChannel_->setEvents(EPOLLIN | EPOLLET);  //设置epollin和边缘触发模式
   acceptChannel_->setReadHandler(bind(&Server::handNewConn, this));
   acceptChannel_->setConnHandler(bind(&Server::handThisConn, this));
   loop_->addToPoller(acceptChannel_, 0);
