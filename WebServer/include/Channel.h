@@ -14,6 +14,9 @@ class HttpData;
 
 class Channel {
  private:
+  /**
+   * CallBack是一个typedef
+   */
   typedef std::function<void()> CallBack;
   EventLoop *loop_;
   int fd_;
@@ -21,7 +24,7 @@ class Channel {
   __uint32_t revents_;
   __uint32_t lastEvents_;
 
-  // 方便找到上层持有该Channel的对象
+  // 方便找到上层持有该Channel的对象，weak_ptr相当于一个观测者
   std::weak_ptr<HttpData> holder_;
 
  private:
@@ -58,18 +61,22 @@ class Channel {
 
   void handleEvents() {
     events_ = 0;
+    // 触发挂起事件 并且没触发可读事件
     if ((revents_ & EPOLLHUP) && !(revents_ & EPOLLIN)) {
       events_ = 0;
       return;
     }
+    // 触发错误事件
     if (revents_ & EPOLLERR) {
       if (errorHandler_) errorHandler_();
       events_ = 0;
       return;
     }
+    // 触发可读事件 | ⾼优先级可读 | 对端（客户端）关闭连接
     if (revents_ & (EPOLLIN | EPOLLPRI | EPOLLRDHUP)) {
       handleRead();
     }
+    // 触发可写事件
     if (revents_ & EPOLLOUT) {
       handleWrite();
     }
@@ -85,7 +92,7 @@ class Channel {
   void setEvents(__uint32_t ev) { events_ = ev; }
   __uint32_t &getEvents() { return events_; }
 
-  bool EqualAndUpdateLastEvents() {
+  bool EqualAndUpdateLastEvents() {  //这个什么作用呢？？？
     bool ret = (lastEvents_ == events_);
     lastEvents_ = events_;
     return ret;

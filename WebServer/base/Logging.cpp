@@ -1,14 +1,16 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "Logging.h"
-#include "CurrentThread.h"
-#include "Thread.h"
-#include "AsyncLogging.h"
-#include <assert.h>
-#include <iostream>
-#include <time.h>  
-#include <sys/time.h> 
+#include "include/Logging.h"
 
+#include <assert.h>
+#include <sys/time.h>
+#include <time.h>
+
+#include <iostream>
+
+#include "include/AsyncLogging.h"
+#include "include/CurrentThread.h"
+#include "include/Thread.h"
 
 static pthread_once_t once_control_ = PTHREAD_ONCE_INIT;
 static AsyncLogging *AsyncLogger_;

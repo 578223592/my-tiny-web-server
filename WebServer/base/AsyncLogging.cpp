@@ -1,11 +1,14 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "AsyncLogging.h"
+#include "include/AsyncLogging.h"
+
 #include <assert.h>
 #include <stdio.h>
 #include <unistd.h>
+
 #include <functional>
-#include "LogFile.h"
+
+#include "include/LogFile.h"
 
 AsyncLogging::AsyncLogging(std::string logFileName_, int flushInterval)
     : flushInterval_(flushInterval),

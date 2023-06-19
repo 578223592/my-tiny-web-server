@@ -1,13 +1,14 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
 #pragma once
+#include "Condition.h"
+#include "MutexLock.h"
+#include "Thread.h"
+#include "noncopyable.h"
 #include "EventLoop.h"
-#include "base/Condition.h"
-#include "base/MutexLock.h"
-#include "base/Thread.h"
-#include "base/noncopyable.h"
 
 
+//对 EventLoop 进⾏封装，让每个 Thread 中运⾏ EventLoop 的 Loop。
 class EventLoopThread : noncopyable {
  public:
   EventLoopThread();

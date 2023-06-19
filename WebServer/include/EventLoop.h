@@ -2,19 +2,19 @@
 // @Email xxbbb@vip.qq.com
 #pragma once
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <vector>
+
+#include "CurrentThread.h"
+#include "Logging.h"
+#include "Thread.h"
 #include "Channel.h"
 #include "Epoll.h"
 #include "Util.h"
-#include "base/CurrentThread.h"
-#include "base/Logging.h"
-#include "base/Thread.h"
-
-
-#include <iostream>
 using namespace std;
 
+//暂时理解：一个EventLoop就是一个reactor响应模型的具体实现
 class EventLoop {
  public:
   typedef std::function<void()> Functor;

@@ -1,20 +1,21 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "Epoll.h"
+#include "include/Epoll.h"
+
+#include <arpa/inet.h>
 #include <assert.h>
 #include <errno.h>
 #include <netinet/in.h>
 #include <string.h>
 #include <sys/epoll.h>
 #include <sys/socket.h>
+
 #include <deque>
-#include <queue>
-#include "Util.h"
-#include "base/Logging.h"
-
-
-#include <arpa/inet.h>
 #include <iostream>
+#include <queue>
+
+#include "base/include/Logging.h"
+#include "include/Util.h"
 using namespace std;
 
 const int EVENTSNUM = 4096;
@@ -52,7 +53,7 @@ void Epoll::epoll_mod(SP_Channel request, int timeout) {
   if (timeout > 0) add_timer(request, timeout);
   int fd = request->getFd();
   if (!request->EqualAndUpdateLastEvents()) {
-    struct epoll_event event;
+    struct epoll_event event{};
     event.data.fd = fd;
     event.events = request->getEvents();
     if (epoll_ctl(epollFd_, EPOLL_CTL_MOD, fd, &event) < 0) {

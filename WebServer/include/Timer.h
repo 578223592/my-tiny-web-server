@@ -2,13 +2,14 @@
 // @Email xxbbb@vip.qq.com
 #pragma once
 #include <unistd.h>
+
 #include <deque>
 #include <memory>
 #include <queue>
-#include "HttpData.h"
-#include "base/MutexLock.h"
-#include "base/noncopyable.h"
 
+#include "../base/include/MutexLock.h"
+#include "../base/include/noncopyable.h"
+#include "HttpData.h"
 
 class HttpData;
 

@@ -3,10 +3,10 @@
 #pragma once
 #include <memory>
 #include <vector>
-#include "EventLoopThread.h"
-#include "base/Logging.h"
-#include "base/noncopyable.h"
 
+#include "Logging.h"
+#include "noncopyable.h"
+#include "EventLoopThread.h"
 
 class EventLoopThreadPool : noncopyable {
  public:

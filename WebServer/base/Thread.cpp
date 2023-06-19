@@ -1,6 +1,7 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "Thread.h"
+#include "include/Thread.h"
+
 #include <assert.h>
 #include <errno.h>
 #include <linux/unistd.h>
@@ -9,11 +10,11 @@
 #include <sys/prctl.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <memory>
-#include "CurrentThread.h"
-
 
 #include <iostream>
+#include <memory>
+
+#include "include/CurrentThread.h"
 using namespace std;
 
 namespace CurrentThread {

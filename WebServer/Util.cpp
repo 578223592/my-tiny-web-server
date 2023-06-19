@@ -22,7 +22,7 @@ ssize_t readn(int fd, void *buff, size_t n) {
     if ((nread = read(fd, ptr, nleft)) < 0) {
       if (errno == EINTR)
         nread = 0;
-      else if (errno == EAGAIN) {
+      else if (errno == EAGAIN) { //返回是eagain，代表读完了
         return readSum;
       } else {
         return -1;
@@ -144,7 +144,7 @@ ssize_t writen(int fd, std::string &sbuff) {
     sbuff = sbuff.substr(writeSum);
   return writeSum;
 }
-
+//通过调用handle_for_sigpipe函数，程序可以忽略SIGPIPE信号，从而避免因为写入已关闭的管道或套接字而导致进程异常终止。
 void handle_for_sigpipe() {
   struct sigaction sa;
   memset(&sa, '\0', sizeof(sa));

@@ -1,11 +1,12 @@
 // @Author swx
 // @Email
 #include <getopt.h>
-#include <string>
-#include "EventLoop.h"
-#include "Server.h"
-#include "base/Logging.h"
 
+#include <string>
+
+#include "base/include/Logging.h"
+#include "include/EventLoop.h"
+#include "include/Server.h"
 
 int main(int argc, char *argv[]) {
   int threadNum = 4;
@@ -44,7 +45,7 @@ int main(int argc, char *argv[]) {
 #endif
   EventLoop mainLoop;
   Server myHTTPServer(&mainLoop, threadNum, port);
-  myHTTPServer.start();
-  mainLoop.loop();
+  myHTTPServer.start();  //把事件注册到loop里面
+  mainLoop.loop();    //开启loop
   return 0;
 }

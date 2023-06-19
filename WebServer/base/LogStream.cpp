@@ -1,10 +1,12 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "LogStream.h"
+#include "include/LogStream.h"
+
 #include <assert.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+
 #include <algorithm>
 #include <limits>
 

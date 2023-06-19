@@ -1,11 +1,14 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "EventLoop.h"
+#include "include/EventLoop.h"
+
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
+
 #include <iostream>
-#include "Util.h"
-#include "base/Logging.h"
+
+#include "base/include/Logging.h"
+#include "include/Util.h"
 
 using namespace std;
 
@@ -28,7 +31,7 @@ EventLoop::EventLoop()
       eventHandling_(false),
       callingPendingFunctors_(false),
       threadId_(CurrentThread::tid()),
-      pwakeupChannel_(new Channel(this, wakeupFd_)) {
+      pwakeupChannel_(new Channel(this, wakeupFd_)) {    //todo wakeupFd对应的channel自然是pwakeupChannel_，既然有了wakeUpchannel，自然就不用保存wakeUpFd了
   if (t_loopInThisThread) {
     // LOG << "Another EventLoop " << t_loopInThisThread << " exists in this
     // thread " << threadId_;
@@ -88,7 +91,10 @@ void EventLoop::queueInLoop(Functor&& cb) {
 
   if (!isInLoopThread() || callingPendingFunctors_) wakeup();
 }
-
+//. epoll_wait阻塞 等待就绪事件(没有注册其他fd时，可以通过event_fd来异步唤醒)
+// 处理每个就绪事件
+// 执⾏正在等待的函数(fd注册到epoll内核事件表)
+// 处理超时事件，到期了就从定时器⼩根堆中删除
 void EventLoop::loop() {
   assert(!looping_);
   assert(isInLoopThread());
@@ -99,14 +105,19 @@ void EventLoop::loop() {
   while (!quit_) {
     // cout << "doing" << endl;
     ret.clear();
-    ret = poller_->poll();
+    // 1、epoll_wait阻塞 等待就绪事件
+    ret = poller_->poll(); //取出事件
     eventHandling_ = true;
-    for (auto& it : ret) it->handleEvents();
+    // 2、处理每个就绪事件(不同channel绑定了不同的callback)
+    for (auto& it : ret) it->handleEvents(); //⽤活动事件的回调函数
     eventHandling_ = false;
+    // 3、执⾏正在等待的函数(fd注册到epoll内核事件表)
     doPendingFunctors();
+    // 4、处理超时事件 到期了就从定时器⼩根堆中删除(定时器析构会EpollDel掉fd)
     poller_->handleExpired();
   }
   looping_ = false;
+
 }
 
 void EventLoop::doPendingFunctors() {

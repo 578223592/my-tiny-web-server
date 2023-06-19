@@ -1,12 +1,14 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "../Logging.h"
-#include "../Thread.h"
-#include <string>
 #include <unistd.h>
-#include <vector>
-#include <memory>
+
 #include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
+#include "../include/Logging.h"
+#include "../include/Thread.h"
 using namespace std;
 
 void threadFunc()
