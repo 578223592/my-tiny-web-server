@@ -1,0 +1,20 @@
+# ninja log v5
+0	543	1687172899907480633	WebServer/CMakeFiles/WebServer.dir/Channel.cpp.o	ea37eb51bd3456e2
+1	762	1687172900127478776	WebServer/CMakeFiles/WebServer.dir/EventLoopThread.cpp.o	ed0e6259c8b93633
+1	839	1687172900203478138	WebServer/CMakeFiles/WebServer.dir/EventLoop.cpp.o	c10f85af02c6e263
+1	840	1687172900207478104	WebServer/CMakeFiles/WebServer.dir/Epoll.cpp.o	6fe0913cc35b937d
+2	907	1687172900271477566	WebServer/CMakeFiles/WebServer.dir/EventLoopThreadPool.cpp.o	8077d2b9295413b8
+840	1105	1687172900471475885	WebServer/CMakeFiles/WebServer.dir/Util.cpp.o	663c75c4d9809cfc
+1	1252	1687172900615474674	WebServer/CMakeFiles/WebServer.dir/HttpData.cpp.o	81d6cdbff7139ed8
+908	1283	1687172900651474372	WebServer/base/CMakeFiles/libserver_base.dir/LogFile.cpp.o	8bb26c6676ae8c8a
+1283	1349	1687172900715473834	WebServer/base/CMakeFiles/libserver_base.dir/CountDownLatch.cpp.o	2e7891910d0ff7c
+544	1351	1687172900715473834	WebServer/CMakeFiles/WebServer.dir/Main.cpp.o	f71dd71cd6ee8395
+839	1461	1687172900827472892	WebServer/CMakeFiles/WebServer.dir/Timer.cpp.o	3c3d631375d73d5
+1252	1507	1687172900871472523	WebServer/base/CMakeFiles/libserver_base.dir/FileUtil.cpp.o	5e9fbca77d9726ba
+1351	1670	1687172901035471146	WebServer/base/CMakeFiles/libserver_base.dir/LogStream.cpp.o	6e0590f77a4eabf4
+762	1721	1687172901087470712	WebServer/CMakeFiles/WebServer.dir/Server.cpp.o	3e26a080f3b0c787
+1106	1740	1687172901107470545	WebServer/base/CMakeFiles/libserver_base.dir/AsyncLogging.cpp.o	74ee69eebe723da5
+1349	1817	1687172901183469911	WebServer/base/CMakeFiles/libserver_base.dir/Logging.cpp.o	fb4e0fd0ad3e2a6a
+1461	1879	1687172901243469411	WebServer/base/CMakeFiles/libserver_base.dir/Thread.cpp.o	b35505c72f74397d
+1879	1896	1687172901263469244	/home/swx/2023_project/WebServer/out_lib/libserver_base.a	4ace97f1b8e4094d
+1896	2022	1687172901387468209	/home/swx/2023_project/WebServer/out_bin/WebServer	a576b03dafb4329f

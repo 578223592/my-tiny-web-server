@@ -1,0 +1,295 @@
+2023-06-18 22:05:21
+New connection from 127.0.0.1:43284 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-18 22:05:21
+New connection from 127.0.0.1:43298 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-18 22:05:21
+Request: GET / HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-18 22:05:21
+Request: GET /favicon.ico HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+sec-ch-ua-platform: "Linux"
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://127.0.0.1:9001/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-18 22:05:24
+New connection from 127.0.0.1:43302 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-18 22:05:24
+Request: GET / HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-18 22:05:24
+Request: GET /favicon.ico HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+sec-ch-ua-platform: "Linux"
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://127.0.0.1:9001/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-18 22:05:45
+New connection from 127.0.0.1:55212 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-18 22:05:45
+Request: GET / HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-18 22:12:27
+Request:  -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-18 22:12:27
+New connection from 127.0.0.1:56372 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-18 22:12:27
+New connection from 127.0.0.1:56388 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-18 22:12:27
+Request: GET / HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-18 22:12:27
+Request: GET /favicon.ico HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+sec-ch-ua-platform: "Linux"
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://127.0.0.1:9001/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-18 22:32:27
+Request:  -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-19 16:13:06
+New connection from 127.0.0.1:47232 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-19 16:13:06
+New connection from 127.0.0.1:47234 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-19 16:13:06
+Request: GET / HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-19 16:13:06
+Request: GET /favicon.ico HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+sec-ch-ua-platform: "Linux"
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://127.0.0.1:9001/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-19 16:13:07
+Request: GET / HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-19 16:13:07
+New connection from 127.0.0.1:47250 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-19 16:13:07
+New connection from 127.0.0.1:47266 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-19 16:13:07
+Request: GET /favicon.ico HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+sec-ch-ua-platform: "Linux"
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://127.0.0.1:9001/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-19 16:13:08
+Request: GET / HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-19 16:13:08
+Request: GET /favicon.ico HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+sec-ch-ua-platform: "Linux"
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://127.0.0.1:9001/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-19 16:13:08
+New connection from 127.0.0.1:47270 -- /home/swx/2023_project/WebServer/WebServer/Server.cpp:45
+2023-06-19 16:13:08
+Request: GET / HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+Cache-Control: max-age=0
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+sec-ch-ua-platform: "Linux"
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: none
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
+2023-06-19 16:13:08
+Request: GET /favicon.ico HTTP/1.1
+Host: 127.0.0.1:9001
+Connection: keep-alive
+sec-ch-ua: "Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+sec-ch-ua-platform: "Linux"
+Accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: no-cors
+Sec-Fetch-Dest: image
+Referer: http://127.0.0.1:9001/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+
+ -- /home/swx/2023_project/WebServer/WebServer/HttpData.cpp:160
