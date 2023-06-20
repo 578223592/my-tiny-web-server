@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 #endif
   EventLoop mainLoop;
   Server myHTTPServer(&mainLoop, threadNum, port);
-  myHTTPServer.start();  //把事件注册到loop里面
+  myHTTPServer.start();  //把事件注册到loop里面，并开始监听，虽然开始监听对应的文件描述符，但是并没有开始epoll_wait对应的事件，因此下面要loop
   mainLoop.loop();    //开启loop
   return 0;
 }

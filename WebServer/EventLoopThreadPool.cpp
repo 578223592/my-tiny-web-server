@@ -14,6 +14,7 @@ void EventLoopThreadPool::start() {
   baseLoop_->assertInLoopThread();
   started_ = true;
   for (int i = 0; i < numThreads_; ++i) {
+    //todo：子线程创建过程？？？ 为什么不会阻塞主线程，怎么保证子线程成功启动
     std::shared_ptr<EventLoopThread> t(new EventLoopThread());
     threads_.push_back(t);
     loops_.push_back(t->startLoop());

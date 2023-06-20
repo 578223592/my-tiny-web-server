@@ -95,6 +95,7 @@ void Epoll::handleExpired() { timerManager_.handleExpiredEvent(); }
 std::vector<SP_Channel> Epoll::getEventsRequest(int events_num) {
   std::vector<SP_Channel> req_data;
   for (int i = 0; i < events_num; ++i) {
+
     // 获取有事件产生的描述符
     int fd = events_[i].data.fd;
 

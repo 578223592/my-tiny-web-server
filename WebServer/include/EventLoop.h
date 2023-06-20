@@ -24,6 +24,10 @@ class EventLoop {
   void quit();
   void runInLoop(Functor&& cb);
   void queueInLoop(Functor&& cb);
+  /**
+   * 判断当前线程是否是创建EventLoop的线程
+   * @return
+   */
   bool isInLoopThread() const { return threadId_ == CurrentThread::tid(); }
   void assertInLoopThread() { assert(isInLoopThread()); }
   void shutdown(shared_ptr<Channel> channel) { shutDownWR(channel->getFd()); }

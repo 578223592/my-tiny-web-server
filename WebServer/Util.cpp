@@ -2,15 +2,14 @@
 // @Email xxbbb@vip.qq.com
 #include "Util.h"
 
-#include <errno.h>
+#include <cerrno>
 #include <fcntl.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
-#include <signal.h>
-#include <string.h>
+#include <csignal>
+#include <cstring>
 #include <sys/socket.h>
 #include <unistd.h>
-
 
 const int MAX_BUFF = 4096;
 ssize_t readn(int fd, void *buff, size_t n) {

@@ -18,18 +18,20 @@ EventLoopThread::~EventLoopThread() {
     thread_.join();
   }
 }
-
+//开始执行监听
 EventLoop* EventLoopThread::startLoop() {
   assert(!thread_.started());
-  thread_.start();
+  thread_.start();  //开始执行创建的时候传入的函数，对EventLoop来说是&EventLoopThread::threadFunc, ，即开始监听
   {
     MutexLockGuard lock(mutex_);
     // 一直等到threadFun在Thread里真正跑起来
+    //本质上就是等到函数真正跑起来，因为初始化loop为null，真正跑起来的时候才会在EventLoopThread中创建loop，即在EventLoopThread::threadFunc()中
     while (loop_ == NULL) cond_.wait();
   }
   return loop_;
 }
-
+//子线程的作用就是不断的loop
+//创建loop 并开始loop
 void EventLoopThread::threadFunc() {
   EventLoop loop;
 

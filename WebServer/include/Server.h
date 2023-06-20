@@ -20,6 +20,9 @@ class Server {
   int threadNum_;
   std::unique_ptr<EventLoopThreadPool> eventLoopThreadPool_;
   bool started_;
+  /**
+   * 主reactor监听的外部连接对应的channel，即listenFd_对应的channel
+   */
   std::shared_ptr<Channel> acceptChannel_;
   int port_;
   int listenFd_;

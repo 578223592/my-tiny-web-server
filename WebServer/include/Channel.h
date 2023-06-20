@@ -21,6 +21,7 @@ class Channel {
   EventLoop *loop_;
   int fd_;
   __uint32_t events_;
+  //epoll收到的事件
   __uint32_t revents_;
   __uint32_t lastEvents_;
 

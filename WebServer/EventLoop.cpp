@@ -88,8 +88,10 @@ void EventLoop::queueInLoop(Functor&& cb) {
     MutexLockGuard lock(mutex_);
     pendingFunctors_.emplace_back(std::move(cb));
   }
-
+//!isInLoopThread()出现的原因是因为主线程也会拿到子线程的EventLoop，!isInLoopThread() ==true 则说明当前正在主线程上
   if (!isInLoopThread() || callingPendingFunctors_) wakeup();
+  //函数检查当前线程是否为事件循环所在的线程（即判断是否在事件循环线程中调用），如果不是或者当前线程正在调用待
+  // 处理对象 (callingPendingFunctors_ 为真)，则调用 wakeup 函数来唤醒事件循环线程。
 }
 //. epoll_wait阻塞 等待就绪事件(没有注册其他fd时，可以通过event_fd来异步唤醒)
 // 处理每个就绪事件

@@ -55,7 +55,7 @@ struct ThreadData {
     CurrentThread::t_threadName = name_.empty() ? "Thread" : name_.c_str();
     prctl(PR_SET_NAME, CurrentThread::t_threadName);
 
-    func_();
+    func_();   //执行线程函数
     CurrentThread::t_threadName = "finished";
   }
 };
@@ -94,11 +94,20 @@ void Thread::start() {
   assert(!started_);
   started_ = true;
   ThreadData* data = new ThreadData(func_, name_, &tid_, &latch_);
-  if (pthread_create(&pthreadId_, NULL, &startThread, data)) {
+  if (pthread_create(&pthreadId_, nullptr, &startThread, data)) {
+    //返回非零值，表示线程创建失败。此时将 started_ 置为 false，表示线程启动失败，然后删除 data，并执行相应的错误处理逻辑。
     started_ = false;
     delete data;
   } else {
-    latch_.wait();
+    //   返回值为 0，表示线程创建成功。然后调用 latch_.wait()，等待线程启动完成。latch_ 是一个同步对象，用于在线程启动前等待，在线程启动完成后释放
+    //   等待状态。这可以确保在外部调用线程等待线程启动完成后再进行后续操作。
+    latch_.wait();   //等到latch_ == 0 为止
+
+    /**
+     * startThread 里面有latch_->countDown();，应该就是等到这个时候，通过这个控制
+     * latch_->countDown();
+        latch_ = NULL;  //不过马上设置latch_ = NULL; 可能会产生异常？？
+     */
     assert(tid_ > 0);
   }
 }
