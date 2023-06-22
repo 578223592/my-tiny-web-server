@@ -9,11 +9,15 @@
 class Server {
  public:
   Server(EventLoop *loop, int threadNum, int port);
-  ~Server() {}
-  EventLoop *getLoop() const { return loop_; }
+  ~Server() = default;
+  EventLoop *getLoop() const {
+    return loop_;
+  }
   void start();
   void handNewConn();
-  void handThisConn() { loop_->updatePoller(acceptChannel_); }
+  void handThisConn() {
+    loop_->updatePoller(acceptChannel_);
+  }
 
  private:
   EventLoop *loop_;

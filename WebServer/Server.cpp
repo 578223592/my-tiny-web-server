@@ -38,13 +38,13 @@ void Server::start() {
 }
 
 void Server::handNewConn() {
-  struct sockaddr_in client_addr;
+  struct sockaddr_in client_addr{};
   memset(&client_addr, 0, sizeof(struct sockaddr_in));
   socklen_t client_addr_len = sizeof(client_addr);
   int accept_fd = 0;
   while ((accept_fd = accept(listenFd_, (struct sockaddr *)&client_addr,
                              &client_addr_len)) > 0) {
-    EventLoop *loop = eventLoopThreadPool_->getNextLoop();
+    EventLoop *loop = eventLoopThreadPool_->getNextLoop();  //分发给子线程的loop
     LOG << "New connection from " << inet_ntoa(client_addr.sin_addr) << ":"
         << ntohs(client_addr.sin_port);
     // cout << "new connection" << endl;

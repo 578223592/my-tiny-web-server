@@ -1,14 +1,13 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "include/EventLoop.h"
+
 
 #include <sys/epoll.h>
 #include <sys/eventfd.h>
 
-#include <iostream>
-
-#include "base/include/Logging.h"
-#include "include/Util.h"
+#include "EventLoop.h"
+#include "Logging.h"
+#include "Util.h"
 
 using namespace std;
 
@@ -88,7 +87,8 @@ void EventLoop::queueInLoop(Functor&& cb) {
     MutexLockGuard lock(mutex_);
     pendingFunctors_.emplace_back(std::move(cb));
   }
-//!isInLoopThread()出现的原因是因为主线程也会拿到子线程的EventLoop，!isInLoopThread() ==true 则说明当前正在主线程上
+// isInLoopThread()出现的原因是因为主线程(主reactor)持有线程池，线程池里面存放的EventLoop，
+// !isInLoopThread() ==true 则说明当前正在主线程上
   if (!isInLoopThread() || callingPendingFunctors_) wakeup();
   //函数检查当前线程是否为事件循环所在的线程（即判断是否在事件循环线程中调用），如果不是或者当前线程正在调用待
   // 处理对象 (callingPendingFunctors_ 为真)，则调用 wakeup 函数来唤醒事件循环线程。
