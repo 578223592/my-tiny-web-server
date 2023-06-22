@@ -82,6 +82,9 @@ class HttpData : public std::enable_shared_from_this<HttpData> {
   std::shared_ptr<Channel> getChannel() { return channel_; }
   EventLoop *getLoop() { return loop_; }
   void handleClose();
+  /**
+   * 新的http连接分发到子reactor，子reactor应该对此进行处理
+   */
   void newEvent();
 
  private:

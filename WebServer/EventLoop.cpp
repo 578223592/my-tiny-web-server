@@ -108,7 +108,7 @@ void EventLoop::loop() {
     // cout << "doing" << endl;
     ret.clear();
     // 1、epoll_wait阻塞 等待就绪事件
-    ret = poller_->poll(); //取出事件
+    ret = poller_->poll(); //取出事件发生所在的channel
     eventHandling_ = true;
     // 2、处理每个就绪事件(不同channel绑定了不同的callback)
     for (auto& it : ret) it->handleEvents(); //⽤活动事件的回调函数
