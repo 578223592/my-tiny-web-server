@@ -13,9 +13,17 @@ class EventLoopThread : noncopyable {
  public:
   EventLoopThread();
   ~EventLoopThread();
+  /**
+   * //开始执行监听，会和  void threadFunc();  联动，void threadFunc();里面会创建loop
+   * 而这里会等待loop创建才会开始loop
+   * @return
+   */
   EventLoop* startLoop();
 
  private:
+   /**
+    * 这个函数会传递给thread_，调用Thread::start()真正会执行的其实就是这个函数
+    */
   void threadFunc();
   EventLoop* loop_;
   bool exiting_;

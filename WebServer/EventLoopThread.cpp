@@ -5,7 +5,7 @@
 #include <functional>
 
 EventLoopThread::EventLoopThread()
-    : loop_(NULL),
+    : loop_(nullptr),
       exiting_(false),
       thread_(bind(&EventLoopThread::threadFunc, this), "EventLoopThread"),
       mutex_(),
@@ -13,12 +13,12 @@ EventLoopThread::EventLoopThread()
 
 EventLoopThread::~EventLoopThread() {
   exiting_ = true;
-  if (loop_ != NULL) {
+  if (loop_ != nullptr) {
     loop_->quit();
     thread_.join();
   }
 }
-//开始执行监听
+
 EventLoop* EventLoopThread::startLoop() {
   assert(!thread_.started());
   thread_.start();  //开始执行创建的时候传入的函数，对EventLoop来说是&EventLoopThread::threadFunc, ，即开始监听
@@ -26,7 +26,7 @@ EventLoop* EventLoopThread::startLoop() {
     MutexLockGuard lock(mutex_);
     // 一直等到threadFun在Thread里真正跑起来
     //本质上就是等到函数真正跑起来，因为初始化loop为null，真正跑起来的时候才会在EventLoopThread中创建loop，即在EventLoopThread::threadFunc()中
-    while (loop_ == NULL) cond_.wait();
+    while (loop_ == nullptr) cond_.wait();
   }
   return loop_;
 }
@@ -43,5 +43,5 @@ void EventLoopThread::threadFunc() {
 
   loop.loop();
   // assert(exiting_);
-  loop_ = NULL;
+  loop_ = nullptr;
 }
