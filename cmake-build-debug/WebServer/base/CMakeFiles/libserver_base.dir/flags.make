@@ -6,5 +6,5 @@ CXX_DEFINES =
 
 CXX_INCLUDES = -I/home/swx/2023_project/WebServer/WebServer/include -I/home/swx/2023_project/WebServer/WebServer/base/include -I/home/swx/2023_project/WebServer/base
 
-CXX_FLAGS = -g -Wall -std=c++11 -D_PTHREADS -Wno-unused-parameter -O0
+CXX_FLAGS = -g -Wall -std=c++14 -D_PTHREADS -Wno-unused-parameter -O0
 

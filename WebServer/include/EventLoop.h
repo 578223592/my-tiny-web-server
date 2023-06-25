@@ -22,7 +22,9 @@ class EventLoop {
   ~EventLoop();
   void loop();
   void quit();
+  // 如果当前线程就是创建此EventLoop的线程 就调⽤callback(关闭连接 EpollDel) 否则就放⼊等待执⾏函数区
   void runInLoop(Functor&& cb);
+  // 把此函数放⼊等待执⾏函数区 如果当前是跨线程 或者正在调⽤等待的函数则唤醒
   void queueInLoop(Functor&& cb);
   /**
    * 判断当前线程是否是创建EventLoop的线程

@@ -1,6 +1,6 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "include/Timer.h"
+#include "Timer.h"
 
 #include <sys/time.h>
 #include <unistd.h>
@@ -9,13 +9,12 @@
 
 TimerNode::TimerNode(std::shared_ptr<HttpData> requestData, int timeout)
     : deleted_(false), SPHttpData(requestData) {
-  struct timeval now;
-  gettimeofday(&now, NULL);
+  struct timeval now{};
+  gettimeofday(&now, nullptr);
   // 以毫秒计
   expiredTime_ =
       (((now.tv_sec % 10000) * 1000) + (now.tv_usec / 1000)) + timeout;
 }
-
 TimerNode::~TimerNode() {
   if (SPHttpData) SPHttpData->handleClose();
 }
@@ -24,19 +23,19 @@ TimerNode::TimerNode(TimerNode &tn)
     : SPHttpData(tn.SPHttpData), expiredTime_(0) {}
 
 void TimerNode::update(int timeout) {
-  struct timeval now;
-  gettimeofday(&now, NULL);
+  struct timeval now{};
+  gettimeofday(&now, nullptr);
   expiredTime_ =
       (((now.tv_sec % 10000) * 1000) + (now.tv_usec / 1000)) + timeout;
 }
 
 bool TimerNode::isValid() {
-  struct timeval now;
-  gettimeofday(&now, NULL);
+  struct timeval now{};
+  gettimeofday(&now, nullptr);
   size_t temp = (((now.tv_sec % 10000) * 1000) + (now.tv_usec / 1000));
-  if (temp < expiredTime_)
+  if (temp < expiredTime_) {
     return true;
-  else {
+  } else {
     this->setDeleted();
     return false;
   }
@@ -76,7 +75,7 @@ void TimerManager::handleExpiredEvent() {
     SPTimerNode ptimer_now = timerNodeQueue.top();
     if (ptimer_now->isDeleted())
       timerNodeQueue.pop();
-    else if (ptimer_now->isValid() == false)
+    else if (!ptimer_now->isValid())
       timerNodeQueue.pop();
     else
       break;

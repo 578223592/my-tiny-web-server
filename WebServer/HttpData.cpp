@@ -316,6 +316,8 @@ void HttpData::handleConn() {
     events_ = (EPOLLOUT | EPOLLET);
   } else {
     // cout << "close with errors" << endl;
+    shared_from_this();
+    &HttpData::handleClose;
     loop_->runInLoop(bind(&HttpData::handleClose, shared_from_this()));
   }
 }

@@ -26,6 +26,7 @@ class Channel {
   __uint32_t lastEvents_;
 
   // 方便找到上层持有该Channel的对象，weak_ptr相当于一个观测者
+//  如果不是weak_ptr可能会有循环引用的问题
   std::weak_ptr<HttpData> holder_;
 
  private:

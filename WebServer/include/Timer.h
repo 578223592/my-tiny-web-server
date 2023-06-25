@@ -16,6 +16,9 @@ class HttpData;
 class TimerNode {
  public:
   TimerNode(std::shared_ptr<HttpData> requestData, int timeout);
+  /**
+   * 定时器到期，这里要负责关闭连接。
+   */
   ~TimerNode();
   TimerNode(TimerNode &tn);
   void update(int timeout);

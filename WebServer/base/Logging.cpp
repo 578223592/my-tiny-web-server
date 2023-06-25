@@ -2,15 +2,15 @@
 // @Email xxbbb@vip.qq.com
 #include "include/Logging.h"
 
-#include <assert.h>
+#include <cassert>
 #include <sys/time.h>
-#include <time.h>
+#include <ctime>
 
 #include <iostream>
 
-#include "include/AsyncLogging.h"
-#include "include/CurrentThread.h"
-#include "include/Thread.h"
+#include "AsyncLogging.h"
+#include "CurrentThread.h"
+#include "Thread.h"
 
 static pthread_once_t once_control_ = PTHREAD_ONCE_INIT;
 static AsyncLogging *AsyncLogger_;

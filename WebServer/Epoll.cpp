@@ -1,12 +1,12 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "include/Epoll.h"
+#include "Epoll.h"
 
 #include <arpa/inet.h>
-#include <assert.h>
-#include <errno.h>
+#include <cassert>
+#include <cerrno>
 #include <netinet/in.h>
-#include <string.h>
+#include <cstring>
 #include <sys/epoll.h>
 #include <sys/socket.h>
 
@@ -14,8 +14,8 @@
 #include <iostream>
 #include <queue>
 
-#include "base/include/Logging.h"
-#include "include/Util.h"
+#include "Logging.h"
+#include "Util.h"
 using namespace std;
 
 const int EVENTSNUM = 4096;
@@ -33,18 +33,17 @@ void Epoll::epoll_add(SP_Channel request, int timeout) {
   int fd = request->getFd();
   if (timeout > 0) {
     add_timer(request, timeout);
-    fd2http_[fd] = request->getHolder();
+    httpMap_.insert(make_pair(fd,request->getHolder()));
   }
-  struct epoll_event event;
+  struct epoll_event event{};
   event.data.fd = fd;
   event.events = request->getEvents();
 
   request->EqualAndUpdateLastEvents();
-
-  fd2chan_[fd] = request;
+  channelMap_[fd] = request;
   if (epoll_ctl(epollFd_, EPOLL_CTL_ADD, fd, &event) < 0) {
     perror("epoll_add error");
-    fd2chan_[fd].reset();
+    channelMap_.erase(fd);
   }
 }
 
@@ -58,7 +57,7 @@ void Epoll::epoll_mod(SP_Channel request, int timeout) {
     event.events = request->getEvents();
     if (epoll_ctl(epollFd_, EPOLL_CTL_MOD, fd, &event) < 0) {
       perror("epoll_mod error");
-      fd2chan_[fd].reset();
+      channelMap_.erase(fd);
     }
   }
 }
@@ -66,7 +65,7 @@ void Epoll::epoll_mod(SP_Channel request, int timeout) {
 // 从epoll中删除描述符
 void Epoll::epoll_del(SP_Channel request) {
   int fd = request->getFd();
-  struct epoll_event event;
+  struct epoll_event event{};
   event.data.fd = fd;
   event.events = request->getLastEvents();
   // event.events = 0;
@@ -74,8 +73,8 @@ void Epoll::epoll_del(SP_Channel request) {
   if (epoll_ctl(epollFd_, EPOLL_CTL_DEL, fd, &event) < 0) {
     perror("epoll_del error");
   }
-  fd2chan_[fd].reset();
-  fd2http_[fd].reset();
+  channelMap_.erase(fd);
+  httpMap_.erase(fd);
 }
 
 // 返回活跃事件数
@@ -85,7 +84,7 @@ std::vector<SP_Channel> Epoll::poll() {
         epoll_wait(epollFd_, &*events_.begin(), events_.size(), EPOLLWAIT_TIME);
     if (event_count < 0) perror("epoll wait error");
     std::vector<SP_Channel> req_data = getEventsRequest(event_count);
-    if (req_data.size() > 0) return req_data;
+    if (!req_data.empty()) return req_data;
   }
 }
 
@@ -95,11 +94,10 @@ void Epoll::handleExpired() { timerManager_.handleExpiredEvent(); }
 std::vector<SP_Channel> Epoll::getEventsRequest(int events_num) {
   std::vector<SP_Channel> req_data;
   for (int i = 0; i < events_num; ++i) {
-
     // 获取有事件产生的描述符
     int fd = events_[i].data.fd;
 
-    SP_Channel cur_req = fd2chan_[fd];
+    SP_Channel cur_req = channelMap_[fd];
 
     if (cur_req) {
       cur_req->setRevents(events_[i].events);
