@@ -30,7 +30,9 @@ class Epoll {
   std::vector<epoll_event> events_;   // epoll_wait()返回的活动事件都放在这个数组
 //  std::shared_ptr<Channel> fd2chan_[MAXFDS];   //没用map保存，直接用的数组，感觉不是特别优雅，有一些内存浪费
   std::unordered_map<int,std::shared_ptr<Channel>> channelMap_;  //替代fd2chan_
-  std::shared_ptr<HttpData> fd2http_[MAXFDS];   //持有用来保证HttpData计数不为0，不被析构，也是因此本类负责HttpData的销毁
+  /**
+   *  持有用来保证HttpData计数不为0，不被析构，也是因此本类负责HttpData的销毁
+   */
   std::unordered_map<int,std::shared_ptr<HttpData>> httpMap_;
   TimerManager timerManager_;
 };
