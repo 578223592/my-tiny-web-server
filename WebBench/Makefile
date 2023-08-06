@@ -2,7 +2,7 @@ CFLAGS?=	-Wall -ggdb -W -O
 CC?=		gcc
 LIBS?=
 LDFLAGS?=
-PREFIX?=	/usr/local/webbench
+PREFIX?=	/home/swx/2023_project/WebServer/WebBench  #/usr/local/webbench
 VERSION=1.5
 TMPDIR=/tmp/webbench-$(VERSION)
 

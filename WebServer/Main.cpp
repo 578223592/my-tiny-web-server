@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
   std::string logPath = "./WebServer.log";
 
   // parse args
-  int opt;
+  int opt = -1;
   const char *str = "t:l:p:";
   while ((opt = getopt(argc, argv, str)) != -1) {
     switch (opt) {

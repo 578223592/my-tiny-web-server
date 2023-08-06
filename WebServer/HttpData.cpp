@@ -11,7 +11,7 @@
 #include "include/Channel.h"
 #include "include/EventLoop.h"
 #include "include/Util.h"
-#include "time.h"
+#include <ctime>
 
 using namespace std;
 

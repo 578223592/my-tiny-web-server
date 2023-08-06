@@ -69,7 +69,7 @@ class MimeType {
   static pthread_once_t once_control;
 };
 
-class HttpData : public std::enable_shared_from_this<HttpData> {
+class HttpData : public std::enable_shared_from_this<HttpData> {    //enable_shared_from_this用于需要在某些地方获取指向自身的 std::shared_ptr，那么就可以使用 std::enable_shared_from_this。
  public:
   HttpData(EventLoop *loop, int connfd);
   ~HttpData() { close(fd_); }
