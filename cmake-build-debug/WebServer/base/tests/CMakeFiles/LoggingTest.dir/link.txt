@@ -1,1 +1,0 @@
-g++ -g -Wall -std=c++14 -D_PTHREADS -Wno-unused-parameter -O0 -rdynamic CMakeFiles/LoggingTest.dir/LoggingTest.cpp.o -o ../../../../out_bin/LoggingTest  ../../../../out_lib/libserver_base.a -lpthread -lrt 
