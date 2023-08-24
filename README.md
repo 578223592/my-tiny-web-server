@@ -16,7 +16,7 @@
 ## Build
 
     #位于项目目录
-    cd cmake-build-debug
+    cd cmake-build-debug  ##如果没有该文件夹，自行创建即可
     rm -rf *
     cmake ..
     make
@@ -59,4 +59,4 @@
 
 ## Others
 
-除了项目基本的代码，进服务器进行压测时，对开源测试工具Webbench增加了Keep-Alive选项和测试功能: 改写后的[Webbench](https://github.com/linyacool/WebBench)
+除了项目基本的代码，进服务器进行压测时，对开源测试工具Webbench增加了Keep-Alive选项和测试功能: 改写后的[Webbench](https://github.com/578223592/my-tiny-web-server/WebBench)

@@ -165,7 +165,7 @@ void setSocketNodelay(int fd) {
   int enable = 1;
   setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (void *)&enable, sizeof(enable));
 }
-
+//todo：弄清这个设置是干什么的？
 void setSocketNoLinger(int fd) {
   struct linger linger_;
   linger_.l_onoff = 1;
