@@ -22,15 +22,19 @@ class TimerNode {
   ~TimerNode();
   TimerNode(TimerNode &tn);
   void update(int timeout);
+  /**
+   * 判断一个节点是否应该超时，如果超时则应该被删除，那么返回false，并设置deleted_为true
+   * @return 该节点是否应该被删除
+   */
   bool isValid();
   void clearReq();
   void setDeleted() { deleted_ = true; }
-  bool isDeleted() const { return deleted_; }
+  bool isDeleted() const { return deleted_; }  //只有isvalid函数和clearReq会将 clearReq设置为true
   size_t getExpTime() const { return expiredTime_; }
 
  private:
   bool deleted_;
-  size_t expiredTime_;
+  size_t expiredTime_; //定时器的过期时间
   std::shared_ptr<HttpData> SPHttpData;
 };
 
@@ -45,7 +49,7 @@ class TimerManager {
  public:
   TimerManager();
   ~TimerManager();
-  void addTimer(std::shared_ptr<HttpData> SPHttpData, int timeout);
+  void addTimer(const std::shared_ptr<HttpData>& SPHttpData, int timeout);
   void handleExpiredEvent();
 
  private:

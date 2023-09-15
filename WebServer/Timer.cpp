@@ -1,14 +1,15 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "Timer.h"
+#include "./include/Timer.h"
 
 #include <sys/time.h>
 #include <unistd.h>
 
 #include <queue>
+#include <utility>
 
 TimerNode::TimerNode(std::shared_ptr<HttpData> requestData, int timeout)
-    : deleted_(false), SPHttpData(requestData) {
+    : deleted_(false), SPHttpData(std::move(requestData)) {
   struct timeval now{};
   gettimeofday(&now, nullptr);
   // 以毫秒计
@@ -20,7 +21,7 @@ TimerNode::~TimerNode() {
 }
 
 TimerNode::TimerNode(TimerNode &tn)
-    : SPHttpData(tn.SPHttpData), expiredTime_(0) {}
+    : expiredTime_(0), SPHttpData(tn.SPHttpData) {}
 
 void TimerNode::update(int timeout) {
   struct timeval now{};
@@ -32,8 +33,8 @@ void TimerNode::update(int timeout) {
 bool TimerNode::isValid() {
   struct timeval now{};
   gettimeofday(&now, nullptr);
-  size_t temp = (((now.tv_sec % 10000) * 1000) + (now.tv_usec / 1000));
-  if (temp < expiredTime_) {
+  size_t timeInterval = (((now.tv_sec % 10000) * 1000) + (now.tv_usec / 1000));
+  if (timeInterval < expiredTime_) {
     return true;
   } else {
     this->setDeleted();
@@ -41,16 +42,15 @@ bool TimerNode::isValid() {
   }
 }
 
-void TimerNode::clearReq() {
-  SPHttpData.reset();
+void TimerNode::clearReq() {   //todo:待查看什么时候会调用这个，即为什么定时器要跟httpData分离。
+  SPHttpData.reset(); //重置后，该对象的引用计数会减一
   this->setDeleted();
 }
 
 TimerManager::TimerManager() {}
-
 TimerManager::~TimerManager() {}
 
-void TimerManager::addTimer(std::shared_ptr<HttpData> SPHttpData, int timeout) {
+void TimerManager::addTimer(const std::shared_ptr<HttpData>& SPHttpData, int timeout) {
   SPTimerNode new_node(new TimerNode(SPHttpData, timeout));
   timerNodeQueue.push(new_node);
   SPHttpData->linkTimer(new_node);
@@ -73,11 +73,10 @@ void TimerManager::handleExpiredEvent() {
   // MutexLockGuard locker(lock);
   while (!timerNodeQueue.empty()) {
     SPTimerNode ptimer_now = timerNodeQueue.top();
-    if (ptimer_now->isDeleted())
+    if (ptimer_now->isDeleted() || !ptimer_now->isValid()){
       timerNodeQueue.pop();
-    else if (!ptimer_now->isValid())
-      timerNodeQueue.pop();
-    else
+    }else {
       break;
+    }
   }
 }

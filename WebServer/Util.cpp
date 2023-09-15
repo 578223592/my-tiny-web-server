@@ -34,7 +34,8 @@ ssize_t readn(int fd, void *buff, size_t n) {
   }
   return readSum;
 }
-
+//由于锁epoll的et触发模式，因此需要一次性读完
+//返回值标识的是本次反复read读到的数量之和 ； 而zero是标识是否在某一次循环中读到 0 字节（代表对端断开了连接）
 ssize_t readn(int fd, std::string &inBuffer, bool &zero) {
   ssize_t nread = 0;
   ssize_t readSum = 0;

@@ -5,9 +5,9 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
-
+#include <dirent.h>
 #include <iostream>
-
+#include <string>
 #include "include/Channel.h"
 #include "include/EventLoop.h"
 #include "include/Util.h"
@@ -22,6 +22,7 @@ const __uint32_t DEFAULT_EVENT = EPOLLIN | EPOLLET | EPOLLONESHOT;
 const int DEFAULT_EXPIRED_TIME = 2000;              // ms
 const int DEFAULT_KEEP_ALIVE_TIME = 5 * 60 * 1000;  // ms
 
+//用于测试的返回值，c++的图标
 char favicon[555] = {
     '\x89', 'P',    'N',    'G',    '\xD',  '\xA',  '\x1A', '\xA',  '\x0',
     '\x0',  '\x0',  '\xD',  'I',    'H',    'D',    'R',    '\x0',  '\x0',
@@ -88,20 +89,20 @@ char favicon[555] = {
 };
 
 void MimeType::init() {
-  mime[".html"] = "text/html";
+  mime[".html"] = "text/html; charset=utf-8";
   mime[".avi"] = "video/x-msvideo";
   mime[".bmp"] = "image/bmp";
   mime[".c"] = "text/plain";
   mime[".doc"] = "application/msword";
   mime[".gif"] = "image/gif";
   mime[".gz"] = "application/x-gzip";
-  mime[".htm"] = "text/html";
+  mime[".htm"] = "text/html; charset=utf-8";
   mime[".ico"] = "image/x-icon";
   mime[".jpg"] = "image/jpeg";
   mime[".png"] = "image/png";
   mime[".txt"] = "text/plain";
   mime[".mp3"] = "audio/mp3";
-  mime["default"] = "text/html";
+  mime["default"] = "text/html; charset=utf-8";
 }
 
 std::string MimeType::getMime(const std::string &suffix) {
@@ -139,11 +140,12 @@ void HttpData::reset() {
   hState_ = H_START;
   headers_.clear();
   // keepAlive_ = false;
-  if (timer_.lock()) {
-    shared_ptr<TimerNode> my_timer(timer_.lock());
+  shared_ptr<TimerNode> my_timer = timer_.lock();
+  if(my_timer != nullptr){
     my_timer->clearReq();
     timer_.reset();
   }
+
 }
 
 void HttpData::seperateTimer() {
@@ -158,7 +160,7 @@ void HttpData::seperateTimer() {
 void HttpData::handleRead() {
   __uint32_t &events_ = channel_->getEvents();
   do {
-    bool zero = false;
+    bool zero = false; //标记此次读到的数据长度是否为0，为0的话可能是对方关闭了连接，按照对方关闭了连接来处理
     int read_num = readn(fd_, inBuffer_, zero);
     LOG << "Request: " << inBuffer_;
     if (connectionState_ == H_DISCONNECTING) {
@@ -170,13 +172,8 @@ void HttpData::handleRead() {
       perror("1");
       error_ = true;
       handleError(fd_, 400, "Bad Request");
-      break;
+      break;   //do --while(false)的妙用，用do --while（false） + break 的方式达到类似 goto 的效果
     }
-    // else if (read_num == 0)
-    // {
-    //     error_ = true;
-    //     break;
-    // }
     else if (zero) {
       // 有请求出现但是读不到数据，可能是Request
       // Aborted，或者来自网络的数据没有达到等原因
@@ -223,7 +220,7 @@ void HttpData::handleRead() {
     }
     if (state_ == STATE_RECV_BODY) {
       int content_length = -1;
-      if (headers_.find("Content-length") != headers_.end()) {
+      if (headers_.find("Content-length") != headers_.end()) {   //只有post请求才解析请求行中的content-length字段
         content_length = stoi(headers_["Content-length"]);
       } else {
         // cout << "(state_ == STATE_RECV_BODY)" << endl;
@@ -295,7 +292,7 @@ void HttpData::handleConn() {
       }
       // events_ |= (EPOLLET | EPOLLONESHOT);
       events_ |= EPOLLET;
-      loop_->updatePoller(channel_, timeout);
+      loop_->updatePoller(channel_, timeout); // 更新监听的事件
 
     } else if (keepAlive_) {
       events_ |= (EPOLLIN | EPOLLET);
@@ -326,9 +323,9 @@ URIState HttpData::parseURI() {
   string &str = inBuffer_;
   string cop = str;
   // 读到完整的请求行再开始解析请求
-  size_t pos = str.find('\r', nowReadPos_);
-  if (pos < 0) {
-    return PARSE_URI_AGAIN;
+  auto pos = str.find('\r', nowReadPos_); //
+  if (pos == string::npos) {
+    return PARSE_URI_AGAIN;  //唯一返回try-again，就是头部一次没有读完的情况
   }
   // 去掉请求行所占的空间，节省空间
   string request_line = str.substr(0, pos);
@@ -337,11 +334,11 @@ URIState HttpData::parseURI() {
   else
     str.clear();
   // Method
-  int posGet = request_line.find("GET");
-  int posPost = request_line.find("POST");
-  int posHead = request_line.find("HEAD");
+  auto posGet = request_line.find("GET");
+  auto posPost = request_line.find("POST");
+  auto posHead = request_line.find("HEAD");
 
-  if (posGet >= 0) {
+  if (posGet != string::npos) {
     pos = posGet;
     method_ = METHOD_GET;
   } else if (posPost >= 0) {
@@ -356,31 +353,34 @@ URIState HttpData::parseURI() {
 
   // filename
   pos = request_line.find("/", pos);
-  if (pos < 0) {
-    fileName_ = "index.html";
+  if (pos == string::npos) {
+    fileName_ = RESORCE_ROOT;
     HTTPVersion_ = HTTP_11;
     return PARSE_URI_SUCCESS;
-  } else {
-    size_t _pos = request_line.find(' ', pos);
-    if (_pos < 0)
-      return PARSE_URI_ERROR;
-    else {
-      if (_pos - pos > 1) {
-        fileName_ = request_line.substr(pos + 1, _pos - pos - 1);
-        size_t __pos = fileName_.find('?');
-        if (__pos >= 0) {
-          fileName_ = fileName_.substr(0, __pos);
-        }
-      }
-
-      else
-        fileName_ = "index.html";
-    }
-    pos = _pos;
   }
+  size_t _pos = request_line.find(' ', pos);   //文件名结束的位置
+  if (_pos < 0){
+    return PARSE_URI_ERROR;
+  }
+  //解析filename是不包含“/”的
+  if (_pos - pos > 1) {
+    fileName_ = request_line.substr(pos + 1, _pos - pos - 1);
+    size_t __pos = fileName_.find('?');
+    if (__pos >= 0) {
+      fileName_ = fileName_.substr(0, __pos);
+    }
+  }else{
+    fileName_ = "";
+  }
+  fileName_ = RESORCE_ROOT + fileName_; //映射到真实的文件夹
+  if(fileName_.compare(RESORCE_ROOT) == 0){
+    fileName_.pop_back();   //因为正常访问文件夹最后一位是没有/的，这里为了保持统一，否则解析会出特例，很麻烦
+  }
+  pos = _pos;
+
   // cout << "fileName_: " << fileName_ << endl;
-  // HTTP 版本号
-  pos = request_line.find("/", pos);
+  // 解析 HTTP 版本号
+  pos = request_line.find('/', pos);
   if (pos < 0)
     return PARSE_URI_ERROR;
   else {
@@ -440,7 +440,7 @@ HeaderState HttpData::parseHeaders() {
           hState_ = H_CR;
           value_end = i;
           if (value_end - value_start <= 0) return PARSE_HEADER_ERROR;
-        } else if (i - value_start > 255)
+        } else if (i - value_start > 255)   //每次头部的key:value对这个长度限制不能超过255，？ swx：不知道为啥有这个限制
           return PARSE_HEADER_ERROR;
         break;
       }
@@ -456,7 +456,7 @@ HeaderState HttpData::parseHeaders() {
         break;
       }
       case H_LF: {
-        if (str[i] == '\r') {
+        if (str[i] == '\r') {  //解析了/r/n到这里了，如果又是/r/n，那么就代表解析请求头解析完了
           hState_ = H_END_CR;
         } else {
           key_start = i;
@@ -525,81 +525,132 @@ AnalysisState HttpData::analysisRequest() {
     }
     int dot_pos = fileName_.find('.');
     string filetype;
-    if (dot_pos < 0)
+    if (dot_pos < 0){
       filetype = MimeType::getMime("default");
-    else
+    }
+    else{
       filetype = MimeType::getMime(fileName_.substr(dot_pos));
+    }
 
     // echo test
-    if (fileName_ == "hello") {
-      outBuffer_ =
-          "HTTP/1.1 200 OK\r\nContent-type: text/plain\r\n\r\nHello World";
-      return ANALYSIS_SUCCESS;
-    }
-    if (fileName_ == "favicon.ico") {
-      header += "Content-Type: image/png\r\n";
-      header += "Content-Length: " + to_string(sizeof favicon) + "\r\n";
-      header += "Server: LinYa's Web Server\r\n";
-
-      header += "\r\n";
-      outBuffer_ += header;
-      outBuffer_ += string(favicon, favicon + sizeof favicon);
-      ;
-      return ANALYSIS_SUCCESS;
-    }
-
-    struct stat sbuf;
+//    if (fileName_ == "hello") {
+//      outBuffer_ =
+//          "HTTP/1.1 200 OK\r\nContent-type: text/plain\r\n\r\nHello World";
+//      return ANALYSIS_SUCCESS;
+//    }
+//    if (fileName_ == "favicon.ico") {
+//      header += "Content-Type: image/png\r\n";
+//      header += "Content-Length: " + to_string(sizeof favicon) + "\r\n";
+//      header += "Server: Swx's Web Server\r\n";
+//
+//      header += "\r\n";
+//      outBuffer_ += header;
+//      outBuffer_ += string(favicon, favicon + sizeof favicon);
+//      ;
+//      return ANALYSIS_SUCCESS;
+//    }
+    struct stat sbuf{};
     if (stat(fileName_.c_str(), &sbuf) < 0) {
       header.clear();
-      handleError(fd_, 404, "Not Found!");
+      handleError(fd_, 404, "Not Found!" +fileName_);
       return ANALYSIS_ERROR;
     }
-    header += "Content-Type: " + filetype + "\r\n";
-    header += "Content-Length: " + to_string(sbuf.st_size) + "\r\n";
-    header += "Server: LinYa's Web Server\r\n";
-    // 头部结束
-    header += "\r\n";
-    outBuffer_ += header;
+    if(S_ISDIR(sbuf.st_mode)){
+      cout<<"要发送的文件夹"<<fileName_<<endl;
+      //发送文件夹，先要确定消息体的大小
+      string  body;
+      body +="<!DOCTYPE html>\n"
+              "<html lang=\"en\"><head><meta charset=\"UTF - 8\"><title>Welcome to my website</title>\n"
+              "\t\t</head><body><h1>欢迎来到我的网站</h1><h2>目录</h2>";
+      body +="<table>";
+      //遍历文件夹，填充消息体
+      struct dirent** namelist;
+      int num=scandir(fileName_.c_str(), &namelist, nullptr, alphasort);
+      cout<<"发送的项目数量为："<<num<<endl;
+      for (int i = 0; i < num; ++i) {
+          //取文件名
+          string  name = string (namelist[i]->d_name);
+          if (name[0] == '.') {
+            free(namelist[i]);
+            continue;
+          }
+          //
+          //std::cout << "搜索到的文件名为：" << name << std::endl; //test
+          //
+          struct stat st{};
+          string subPah = fileName_ + "/" +name;
+          stat(subPah.c_str(), &st);
+          if (S_ISDIR(st.st_mode)) {
+          //a标签<a href="">name</1>
+            body += "<tr><td><a href=\"/"+subPah.substr(string(RESORCE_ROOT).size())+"\">"+name+"</a></td><td>"+ to_string(st.st_size)+"</td></tr>";
+            cout<<"<tr><td><a href=\"/"+subPah.substr(string(RESORCE_ROOT).size())+"\">"+name+"</a></td><td>"+ to_string(st.st_size)+"</td></tr>"<<endl;
+          }else{
+            body += "<tr><td><a href=\"/"+subPah.substr(string(RESORCE_ROOT).size())+"\">"+name+"</a></td><td>"+ to_string(st.st_size)+"</td></tr>";
+            cout<<"<tr><td><a href=\"/"+subPah.substr(string(RESORCE_ROOT).size())+"\">"+name+"</a></td><td>"+ to_string(st.st_size)+"</td></tr>"<<endl;
+          }
+          free(namelist[i]);
+      }
+      free(namelist);
+      body +="</table></body></html>";
+      //body组装end
+      header += "Content-Type: " + filetype + "\r\n";
+      header += "Content-Length: " + to_string(body.size()) + "\r\n";
+      header += "Server: Swx's Web Server\r\n";
+      // 头部结束,后面是填充消息体
+      header += "\r\n";
+      outBuffer_ += header;
+      outBuffer_ += body;
+      cout<<"outBuffer_:"<<endl;
+      cout<<outBuffer_<<endl;
+      return ANALYSIS_SUCCESS;
+    }else{
+       //使用mmap发送文件
+      header += "Content-Type: " + filetype + "\r\n";
+      header += "Content-Length: " + to_string(sbuf.st_size) + "\r\n";
+      header += "Server: Swx's Web Server\r\n";
+      // 头部结束,后面是填充消息体
+      header += "\r\n";
+      outBuffer_ += header;
 
-    if (method_ == METHOD_HEAD) return ANALYSIS_SUCCESS;
+      if (method_ == METHOD_HEAD) return ANALYSIS_SUCCESS;
 
-    int src_fd = open(fileName_.c_str(), O_RDONLY, 0);
-    if (src_fd < 0) {
-      outBuffer_.clear();
-      handleError(fd_, 404, "Not Found!");
-      return ANALYSIS_ERROR;
-    }
-    void *mmapRet = mmap(NULL, sbuf.st_size, PROT_READ, MAP_PRIVATE, src_fd, 0);
-    close(src_fd);
-    if (mmapRet == (void *)-1) {
+      int src_fd = open(fileName_.c_str(), O_RDONLY, 0);
+      if (src_fd < 0) {
+          outBuffer_.clear();
+          handleError(fd_, 404, "Not Found!");
+          return ANALYSIS_ERROR;
+      }
+      void *mmapRet = mmap(nullptr, sbuf.st_size, PROT_READ, MAP_PRIVATE, src_fd, 0);  //todo：mmap比fread更快，后面加入小林中的优化
+      close(src_fd);
+      if (mmapRet == (void *)-1) {
+          munmap(mmapRet, sbuf.st_size);
+          outBuffer_.clear();
+          handleError(fd_, 404, "Not Found!");
+          return ANALYSIS_ERROR;
+      }
+      char *src_addr = static_cast<char *>(mmapRet);
+      outBuffer_ += string(src_addr, src_addr + sbuf.st_size);
       munmap(mmapRet, sbuf.st_size);
-      outBuffer_.clear();
-      handleError(fd_, 404, "Not Found!");
-      return ANALYSIS_ERROR;
+      return ANALYSIS_SUCCESS;
     }
-    char *src_addr = static_cast<char *>(mmapRet);
-    outBuffer_ += string(src_addr, src_addr + sbuf.st_size);
-    ;
-    munmap(mmapRet, sbuf.st_size);
-    return ANALYSIS_SUCCESS;
+
   }
   return ANALYSIS_ERROR;
 }
-
+//解析出现错误，向对端发送错误的保温，
 void HttpData::handleError(int fd, int err_num, string short_msg) {
-  short_msg = " " + short_msg;
   char send_buff[4096];
   string body_buff, header_buff;
   body_buff += "<html><title>哎~出错了</title>";
   body_buff += "<body bgcolor=\"ffffff\">";
-  body_buff += to_string(err_num) + short_msg;
-  body_buff += "<hr><em> LinYa's Web Server</em>\n</body></html>";
+  body_buff += to_string(err_num) + " "+short_msg;
+  body_buff += "<hr><em> Swx's Web Server</em>\n</body></html>";
 
-  header_buff += "HTTP/1.1 " + to_string(err_num) + short_msg + "\r\n";
+  header_buff += "HTTP/1.1 " + to_string(err_num) + " "+short_msg + "\r\n";
   header_buff += "Content-Type: text/html\r\n";
   header_buff += "Connection: Close\r\n";
   header_buff += "Content-Length: " + to_string(body_buff.size()) + "\r\n";
-  header_buff += "Server: LinYa's Web Server\r\n";
+  header_buff += "Server: Swx's Web Server\r\n";
   ;
   header_buff += "\r\n";
   // 错误处理不考虑writen不完的情况

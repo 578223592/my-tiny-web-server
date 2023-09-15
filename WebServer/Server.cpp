@@ -39,7 +39,7 @@ void Server::start() {
 
 void Server::handNewConn() {
   struct sockaddr_in client_addr{};
-  memset(&client_addr, 0, sizeof(struct sockaddr_in));
+
   socklen_t client_addr_len = sizeof(client_addr);
   int accept_fd = 0;
   while ((accept_fd = accept(listenFd_, (struct sockaddr *)&client_addr,
@@ -74,7 +74,7 @@ void Server::handNewConn() {
 //    setSocketNoLinger 函数用于设置socket连接关闭的方式，它的作用是控制调用close关闭socket的方式。当启用SO_LINGER选项时，close函数会阻塞一段时间（由SO_LINGER选项指定的时间），以等待数据发送或接收完成。如果timeout时间到了仍未完成，那么close会强制关闭socket，这样可以保证数据正常传输。如果不启用SO_LINGER选项，则close函数会立即返回，但数据可能没有发送或接收完成。不过，在一般情况下，SO_LINGER选项并不推荐在accept套接字中被使用，因为这会导致在一个套接字关闭时，内核仍的无法释放相应的所有资源，从而导致内存泄漏问题。
 
 //    shared_ptr<HttpData>  req_info = make_shared<HttpData>(loop, accept_fd);
-    shared_ptr<HttpData> req_info(newElement<HttpData>(loop, accept_fd),deleteElement<HttpData>);
+    shared_ptr<HttpData> req_info(newElement<HttpData>(loop, accept_fd),deleteElement<HttpData>);  //调用线程池创建
 //    shared_ptr<HttpData> req_info(new HttpData(loop, accept_fd));
     req_info->getChannel()->setHolder(req_info);   //todo 这里好像有循环引用的问题
     loop->queueInLoop(std::bind(&HttpData::newEvent, req_info));   //为何调用这个就可以把http事件注册到子reactor（线程）呢

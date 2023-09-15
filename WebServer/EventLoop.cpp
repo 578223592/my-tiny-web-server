@@ -57,7 +57,7 @@ EventLoop::~EventLoop() {
   t_loopInThisThread = NULL;
 }
 
-void EventLoop::wakeup() {
+void EventLoop::wakeup() {  //通过eventfd异步唤醒睡眠的子线程
   uint64_t one = 1;
   ssize_t n = writen(wakeupFd_, (char*)(&one), sizeof one);
   if (n != sizeof one) {
@@ -131,7 +131,7 @@ void EventLoop::doPendingFunctors() {
     functors.swap(pendingFunctors_);
   }
 
-  for (size_t i = 0; i < functors.size(); ++i) functors[i]();
+  for (const auto & functor : functors) functor();
   callingPendingFunctors_ = false;
 }
 

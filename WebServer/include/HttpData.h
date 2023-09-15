@@ -1,6 +1,8 @@
-// @Author Lin Ya
+// @Author swx
 // @Email xxbbb@vip.qq.com
 #pragma once
+#define RESORCE_ROOT "/home/swx/webSeverResource/"
+
 #include <sys/epoll.h>
 #include <unistd.h>
 #include <functional>
@@ -8,8 +10,9 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include "Timer.h"
 #include <iostream>
+#include "Timer.h"
+
 class EventLoop;
 class TimerNode;
 class Channel;
@@ -34,7 +37,9 @@ enum HeaderState {
   PARSE_HEADER_ERROR
 };
 
-enum AnalysisState { ANALYSIS_SUCCESS = 1, ANALYSIS_ERROR };
+enum AnalysisState {
+  ANALYSIS_SUCCESS = 1,
+  ANALYSIS_ERROR };
 
 enum ParseState {
   H_START = 0,
@@ -48,12 +53,15 @@ enum ParseState {
   H_END_LF
 };
 
-enum ConnectionState { H_CONNECTED = 0, H_DISCONNECTING, H_DISCONNECTED };
+enum ConnectionState {
+  H_CONNECTED = 0,
+  H_DISCONNECTING,
+  H_DISCONNECTED };
 
 enum HttpMethod { METHOD_POST = 1, METHOD_GET, METHOD_HEAD };
 
 enum HttpVersion { HTTP_10 = 1, HTTP_11 };
-
+//用于获取文件的类型，比如图片的返回值类型应该为 ： image/png
 class MimeType {
  private:
   static void init();

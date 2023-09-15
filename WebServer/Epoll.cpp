@@ -1,6 +1,6 @@
 // @Author Lin Ya
 // @Email xxbbb@vip.qq.com
-#include "Epoll.h"
+#include "./include/Epoll.h"
 
 #include <arpa/inet.h>
 #include <cassert>
@@ -138,8 +138,9 @@ std::vector<SP_Channel> Epoll::getEventsRequest(int events_num)
 void Epoll::add_timer(SP_Channel request_data, int timeout)
 {
   shared_ptr<HttpData> t = request_data->getHolder();
-  if (t)
+  if (t){
     timerManager_.addTimer(t, timeout);
-  else
+  }else{
     LOG << "timer add fail";
+  }
 }
